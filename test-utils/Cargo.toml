@@ -9,7 +9,7 @@ edition = "2021"
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-near-sdk = "4.0.0"
+near-sdk = { git = "https://github.com/olga24912/near-sdk-rs.git", branch = "bls-sig-4.0.0" }
 borsh = "0.9.3"
 near-primitives = "0.14.0"
 workspaces = "0.6"

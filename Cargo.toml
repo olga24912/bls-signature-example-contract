@@ -14,7 +14,7 @@ tree_hash = { git = "https://github.com/aurora-is-near/lighthouse.git", rev = "b
 merkle_proof = { git = "https://github.com/aurora-is-near/lighthouse.git", rev = "b624c3f0d3c5bc9ea46faa14c9cb2d90ee1e1dec" }
 bls = { git = "https://github.com/aurora-is-near/lighthouse.git", optional = true, rev = "b624c3f0d3c5bc9ea46faa14c9cb2d90ee1e1dec", default-features = false, features = ["milagro"]}
 admin-controlled =  { path = "../rainbow-bridge/contracts/near/admin-controlled" }
-near-sdk = "4.0.0"
+near-sdk = { git = "https://github.com/olga24912/near-sdk-rs.git", branch = "bls-sig-4.0.0" }
 borsh = "0.9.3"
 bitvec = "1.0.0"
 
@@ -28,3 +28,4 @@ test-utils = { path = "test-utils" }
 [patch]
 [patch.crates-io]
 eth2_hashing = { path = "../rainbow-bridge/contracts/near/eth2_hashing" }
+near-sdk = { git = "https://github.com/olga24912/near-sdk-rs.git", branch = "bls-sig-4.0.0" }

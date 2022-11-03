@@ -1,7 +1,7 @@
 # Example contract for bls signature verification
 In contract function `verify_bls_signature` takes `LightClientUpdate` and `SyncCommittee` and verify sync committee signature of attested block.
 
-## Dependency
+## Dependencies
 * https://github.com/olga24912/nearcore/tree/bls-sig
 * https://github.com/olga24912/near-sdk-rs/tree/bls-sig-4.0.0
 

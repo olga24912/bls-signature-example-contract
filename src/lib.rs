@@ -111,9 +111,9 @@ mod tests {
 
     fn get_config() -> ConfigForTests {
         ConfigForTests {
-            path_to_current_sync_committee: "../rainbow-bridge/eth2near/eth2near-block-relay-rs/data/goerli_testdata/next_sync_committee_goerli_period_473.json".to_string(),
-            path_to_next_sync_committee: "../rainbow-bridge/eth2near/eth2near-block-relay-rs/data/goerli_testdata/next_sync_committee_goerli_period_474.json".to_string(),
-            path_to_light_client_updates: "../rainbow-bridge/eth2near/eth2near-block-relay-rs/data/goerli_testdata/light_client_updates_goerli_slots_3885697_3886176.json".to_string(),
+            path_to_current_sync_committee: "./data/next_sync_committee_goerli_period_473.json".to_string(),
+            path_to_next_sync_committee: "./data/next_sync_committee_goerli_period_474.json".to_string(),
+            path_to_light_client_updates: "./data/light_client_updates_goerli_slots_3885697_3886176.json".to_string(),
             network_name: "goerli".to_string()
         }
     }

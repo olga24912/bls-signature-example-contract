@@ -28,13 +28,11 @@ impl Counter {
     #[init]
     #[payable]
     pub fn new() -> Self {
-        let mut contract = Self { counter: 0 };
-        contract
+        Self { counter: 0 }
     }
 
     #[payable]
     pub fn unprotected(&mut self) {
-        println!("{:?}", near_sdk::env::account_balance());
         self.counter += 1
     }
 
@@ -81,7 +79,7 @@ impl Counter {
             pubkeys.append(&mut pubkey.0.to_vec());
         }
 
-        near_sdk::env::verify_bls_signature1(&input.light_client_update
+        near_sdk::env::verify_bls12_381(&input.light_client_update
             .sync_aggregate
             .sync_committee_signature
             .0,
@@ -96,7 +94,7 @@ impl Counter {
 mod tests {
     use serde_json::json;
     use near_sdk::AccountId;
-    use near_plugins_test_utils::*;
+    use test_utils::*;
     use workspaces::Contract;
     use eth_types::eth2::LightClientUpdate;
     use eth_types::eth2::SyncCommittee;
@@ -120,32 +118,26 @@ mod tests {
         }
     }
 
-    async fn call_method_with_borsh_args(contract: &Contract, method_name: &str, args: Vec<u8>) -> bool {
+    async fn view_method_with_borsh_args(contract: &Contract, method_name: &str, args: Vec<u8>) -> u64 {
         let res = contract.view(method_name, args)
             .await.unwrap();
 
-        let res_val: u64 = serde_json::from_slice(&res.result).unwrap();
-
-        println!("Result: {:?}", res_val);
-        return true;
+        return serde_json::from_slice(&res.result).unwrap()
     }
 
-    const WASM_FILEPATH: &str = "./target/wasm32-unknown-unknown/release/example_contract.wasm";
+    const WASM_FILEPATH: &str = "./target/wasm32-unknown-unknown/release/bls_signature_example_contract.wasm";
 
     #[tokio::test]
     async fn base_scenario() {
-        let (contract_holder, contract) = get_contract(WASM_FILEPATH).await;
-
+        let (_, contract) = get_contract(WASM_FILEPATH).await;
         assert!(call!(contract, "new").await);
-
         assert!(call!(contract, "unprotected").await);
-
         check_counter(&contract, 1).await;
     }
 
     #[tokio::test]
     async fn test_verify_bls_signature() {
-        let (contract_holder, contract) = get_contract(WASM_FILEPATH).await;
+        let (_, contract) = get_contract(WASM_FILEPATH).await;
         assert!(call!(contract, "new").await);
 
         let config = get_config();
@@ -167,14 +159,14 @@ mod tests {
             sync_committee: current_sync_committee
         };
 
-        call_method_with_borsh_args(&contract, "verify_bls_signature", input.try_to_vec().unwrap()).await;
+        assert_eq!(view_method_with_borsh_args(&contract, "verify_bls_signature", input.try_to_vec().unwrap()).await, 0);
 
         input = LightClientStruct {
             light_client_update: light_client_updates[0].clone(),
             sync_committee: next_sync_committee
         };
 
-        call_method_with_borsh_args(&contract, "verify_bls_signature", input.try_to_vec().unwrap()).await;
+        assert_eq!(view_method_with_borsh_args(&contract, "verify_bls_signature", input.try_to_vec().unwrap()).await, 5);
     }
 }
 

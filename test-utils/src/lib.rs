@@ -3,7 +3,6 @@ use near_sdk::ONE_NEAR;
 use workspaces::{Account, Contract};
 
 pub async fn get_contract(wasm_path: &str) -> (Account, Contract) {
-    println!("Get contract");
     let worker = workspaces::sandbox().await.unwrap();
 
     let owner = worker.root_account().unwrap();
@@ -20,14 +19,13 @@ pub async fn view(contract: &Contract, method_name: &str, args: &serde_json::Val
 }
 
 pub async fn call_arg(contract: &Contract, method_name: &str, args: &serde_json::Value) -> bool {
-    let cl = contract
+    let res = contract
         .call(method_name)
         .args_json(args)
         .max_gas()
         .transact()
         .await.unwrap();
-    println!("{:?}", cl);
-    cl.is_success()
+    res.is_success()
 }
 
 pub async fn call_by_with_arg(account: &Account, contract: &Contract, method_name: &str, args: &serde_json::Value) -> bool {

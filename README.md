@@ -29,3 +29,15 @@ $ cd <PATH_TO_EXAMPLE_CONTRACT>
 $ ./build.sh
 $ cargo test -- --show-output
 ```
+
+## Gas Estimation
+```bash
+$ cd <PATH_TO_NEARCORE>/runtime/runtime-params-estimator/
+$ cargo run
+```
+
+* `Bls12381VerifyBase = 1_161_108_297_105 gas` - the gas for verifying aggregate signature for a 32-byte message with one public key
+* `Bls12381VerifyByte = 123_969_578 gas` - extra gas for each extra byte in a message
+* `Bls12381VerifyElements = 58_519_162_009 gas`- extra gas for each extra public key
+
+The `MAX_GAS = 300_000_000_000_000 gas`

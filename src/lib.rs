@@ -297,7 +297,7 @@ mod tests {
                 input.try_to_vec().unwrap()
             )
             .await,
-            0
+            1
         );
 
         call_method_with_borsh_args(&contract,
@@ -318,7 +318,7 @@ mod tests {
                 input.try_to_vec().unwrap()
             )
             .await,
-            5
+            0
         );
     }
 
@@ -390,7 +390,7 @@ mod tests {
                 "verify_bls_signature_aggregate_pk",
                 input.try_to_vec().unwrap()
             ).await,
-            0
+            1
         );
 
         call_method_with_borsh_args(&contract,
